@@ -1,5 +1,9 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const PLAYWRIGHT_HOST = process.env.PLAYWRIGHT_HOST ?? '127.0.0.1';
+const PLAYWRIGHT_PORT = Number(process.env.PLAYWRIGHT_PORT ?? 3050);
+const PLAYWRIGHT_URL = `http://${PLAYWRIGHT_HOST}:${PLAYWRIGHT_PORT}`;
+
 export default defineConfig({
   testDir: './tests/e2e',
   timeout: 30_000,
@@ -10,17 +14,18 @@ export default defineConfig({
       maxDiffPixelRatio: 0.01,
     },
   },
+  snapshotPathTemplate: '{testDir}/{testFilePath}-snapshots/{arg}{ext}',
   fullyParallel: true,
   reporter: 'list',
   use: {
-    baseURL: 'http://localhost:3000',
+    baseURL: PLAYWRIGHT_URL,
     trace: 'retain-on-failure',
     video: 'retain-on-failure',
     screenshot: 'only-on-failure',
   },
   webServer: {
-    command: 'npm run dev',
-    url: 'http://localhost:3000',
+    command: `npx next dev --hostname ${PLAYWRIGHT_HOST} --port ${PLAYWRIGHT_PORT}`,
+    url: PLAYWRIGHT_URL,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
   },

@@ -8,8 +8,7 @@ test.describe("Visual regression", () => {
     await page.goto("/");
     await page.waitForLoadState("networkidle");
 
-    await expect(page).toHaveScreenshot({
-      path: "tests/e2e/visual.spec.js-snapshots/homepage-full.png",
+    await expect(page).toHaveScreenshot("homepage-full.png", {
       fullPage: true,
     });
   });
@@ -19,8 +18,6 @@ test.describe("Visual regression", () => {
     await page.waitForLoadState("networkidle");
 
     const searchSection = page.locator('section[aria-label="Search recipes"]');
-    await expect(searchSection).toHaveScreenshot({
-      path: "tests/e2e/visual.spec.js-snapshots/search-section.png",
-    });
+    await expect(searchSection).toHaveScreenshot("search-section.png");
   });
 });
