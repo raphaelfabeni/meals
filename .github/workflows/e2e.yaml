@@ -1,10 +1,10 @@
-# .github/workflows/e2e.yml
 name: E2E - Playwright
 
 on:
   pull_request:
+    branches: [ main ]
   push:
-    branches: [ develop ]
+    branches-ignore: [ main ]
   workflow_dispatch:
     inputs:
       node:
