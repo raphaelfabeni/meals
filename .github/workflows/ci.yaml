@@ -1,22 +1,17 @@
 name: CI - unit tests
 
 on:
-  # Run on any PR (source/target branches don't matter)
+  # Runs for any pull request and on pushes to develop
   pull_request:
-  # Optional: still run on pushes to develop (keep/remove as you like)
   push:
     branches: [ develop ]
-  # Allow manual runs from the Actions tab
+  # Manual trigger from the Actions tab
   workflow_dispatch:
     inputs:
       node:
         description: 'Node.js version'
         required: false
         default: '20'
-      testPattern:
-        description: 'Vitest filter pattern (optional)'
-        required: false
-        default: ''
 
 jobs:
   vitest:
@@ -34,20 +29,21 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
-
-      - name: Run unit tests (Vitest)
         run: |
-          if [ -n "${{ github.event.inputs.testPattern }}" ]; then
-            npm run test -- --run --filter "${{ github.event.inputs.testPattern }}"
+          if [ -f package-lock.json ]; then
+            npm ci
           else
-            npm run test
+            npm install
           fi
 
-      # Optional: upload coverage if you enable it (vitest --coverage)
-      # - name: Upload coverage
-      #   if: always()
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: coverage
-      #     path: coverage/
+      - name: Run unit tests (Vitest)
+        run: npm run test -- --coverage
+
+      # Upload coverage report (so you can inspect it in Actions artifacts)
+      - name: Upload coverage
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage/
+          if-no-files-found: ignore
