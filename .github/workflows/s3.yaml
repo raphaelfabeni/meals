@@ -1,0 +1,77 @@
+name: Deploy to S3 + CloudFront
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+env:
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+  S3_BUCKET: ${{ secrets.S3_BUCKET }}
+  CF_DISTRIBUTION_ID: ${{ secrets.CF_DISTRIBUTION_ID }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # ---------- BUILD ----------
+      - name: Build and export static site
+        env:
+          NEXT_TELEMETRY_DISABLED: 1
+        run: |
+          npm run build
+          if npm run | grep -qE '^\s*export\b'; then
+            npm run export
+          else
+            npx next export
+          fi
+          test -d out || (echo "❌ Export failed — './out' directory not found" && exit 1)
+          echo "✅ Build complete. Contents of ./out:"
+          ls -l out
+
+      # ---------- AWS AUTH ----------
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      # ---------- DEPLOY ----------
+      - name: Sync HTML files (short cache)
+        run: |
+          aws s3 sync out "s3://${S3_BUCKET}" \
+            --delete \
+            --exclude "*" --include "*.html" \
+            --cache-control "max-age=300, must-revalidate"
+
+      - name: Sync assets (long cache)
+        run: |
+          aws s3 sync out "s3://${S3_BUCKET}" \
+            --delete \
+            --exclude "*.html" \
+            --cache-control "public, max-age=31536000, immutable"
+
+      # ---------- CLOUDFRONT INVALIDATION ----------
+      - name: Invalidate CloudFront cache
+        if: env.CF_DISTRIBUTION_ID != ''
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id "${CF_DISTRIBUTION_ID}" \
+            --paths "/*"
