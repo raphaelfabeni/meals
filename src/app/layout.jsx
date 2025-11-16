@@ -2,7 +2,7 @@ import "./globals.css";
 
 export const metadata = {
   title: "Meal Helper",
-  description: "Find recipes fast, keep things accessible.",
+  description: "Find recipes fast, keep things easy."
 };
 
 export default function RootLayout({ children }) {
