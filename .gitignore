@@ -49,3 +49,5 @@ deploy-*.json
 .cache/
 .happydom/
 .playwright/
+playwright-report/
+test-results/
