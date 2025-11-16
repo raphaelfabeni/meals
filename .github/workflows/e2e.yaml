@@ -1,0 +1,65 @@
+# .github/workflows/e2e.yml
+name: E2E - Playwright
+
+on:
+  pull_request:
+  push:
+    branches: [ develop, main, e2e ]
+  workflow_dispatch:
+    inputs:
+      node:
+        description: 'Node.js version'
+        required: false
+        default: '20'
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ github.event.inputs.node || '20' }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install
+          fi
+
+      # Installs Chromium/WebKit/Firefox and system deps used in CI
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      # Run Playwright. Your playwright.config.* should define `webServer`
+      # (e.g., start your app on port 3000) so CI doesn't need extra steps.
+      - name: Run E2E tests
+        run: npx playwright test
+        env:
+          # put any runtime env your app needs here (mock keys, etc.)
+          NODE_ENV: test
+
+      # Always keep artifacts on failure for debugging
+      - name: Upload Playwright report (on failure)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report
+          if-no-files-found: ignore
+
+      - name: Upload test results (on failure)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: test-results
+          if-no-files-found: ignore
