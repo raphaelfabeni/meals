@@ -4,6 +4,7 @@ import { useSearch } from "./useSearch";
 import SearchBar from "@/app/_components/SearchBar";
 import RecipeCard from "@/app/_components/RecipeCard";
 import RecipeModal from "@/app/_components/RecipeModal";
+import Button from "@/app/_components/ui/Button";
 
 export default function SearchSection() {
   const {
@@ -25,20 +26,12 @@ export default function SearchSection() {
       <SearchBar onSearch={handleSearch} />
 
       <div className="mt-4 flex flex-wrap gap-3">
-        <button
-          type="button"
-          onClick={handleRandom}
-          className="cursor-pointer rounded-[var(--radius-card)] px-4 py-3 font-medium ring-1 ring-transparent bg-emerald-600 text-white hover:bg-emerald-700"
-        >
+        <Button onClick={handleRandom} size="lg" variant="primary">
           Surprise me
-        </button>
-        <button
-          type="button"
-          onClick={clearAll}
-          className="cursor-pointer rounded-[var(--radius-card)] px-4 py-3 font-medium ring-1 ring-emerald-300 bg-white text-emerald-900 hover:bg-emerald-50"
-        >
+        </Button>
+        <Button onClick={clearAll} variant="secondary" size="lg">
           Clear results
-        </button>
+        </Button>
       </div>
 
       {busy && (

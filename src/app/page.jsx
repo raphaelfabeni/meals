@@ -1,5 +1,6 @@
 import FunFacts from "@/app/_components/FunFacts";
 import SearchSection from "@/app/_components/SearchSection";
+import Button from "@/app/_components/ui/Button";
 
 export default function Page() {
   return (
@@ -24,15 +25,12 @@ export default function Page() {
               Can’t cook (yet)? We’ve got you. Search by dish or ingredient and get steps you can actually follow.
             </p>
 
-            <a
-              href="#search"
-              className="mt-8 inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-fuchsia-600 to-rose-600 px-6 py-3 font-semibold ring-1 ring-white/10 shadow hover:opacity-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
-            >
+            <Button href="#search" variant="hero" size="lg" className="mt-8">
               Start searching
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="opacity-90">
                 <path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-            </a>
+            </Button>
           </header>
 
           <div className="mt-10">
