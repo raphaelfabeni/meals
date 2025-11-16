@@ -1,11 +1,11 @@
 name: CI - unit tests
 
 on:
-  # Runs for any pull request and on pushes to develop
+  # Run for any PR and pushes to develop
   pull_request:
   push:
-    branches: [ develop ]
-  # Manual trigger from the Actions tab
+    branches: [ develop, main ]
+  # Allow manual runs from the Actions tab
   workflow_dispatch:
     inputs:
       node:
@@ -19,7 +19,7 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Setup Node
@@ -37,13 +37,4 @@ jobs:
           fi
 
       - name: Run unit tests (Vitest)
-        run: npm run test -- --coverage
-
-      # Upload coverage report (so you can inspect it in Actions artifacts)
-      - name: Upload coverage
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage
-          path: coverage/
-          if-no-files-found: ignore
+        run: npm run test
