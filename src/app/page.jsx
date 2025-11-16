@@ -13,7 +13,7 @@ export default function Page() {
         <div className="relative w-full max-w-5xl px-6 py-16">
           <header className="max-w-3xl">
             <p className="inline-block rounded-full bg-white/10 px-3 py-1 text-xs tracking-wider ring-1 ring-white/15">
-              Beginner-friendly
+              Time to eat
             </p>
 
             <h1 className="mt-4 text-balance text-5xl md:text-7xl font-extrabold tracking-tight">
