@@ -1,0 +1,5 @@
+<!-- simple gray placeholder -->
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360" role="img" aria-label="image placeholder">
+  <rect width="100%" height="100%" fill="#e5e7eb"/>
+  <text x="50%" y="50%" text-anchor="middle" fill="#9ca3af" font-family="system-ui, sans-serif" font-size="20">No image</text>
+</svg>
