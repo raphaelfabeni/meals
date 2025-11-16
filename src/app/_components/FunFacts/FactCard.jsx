@@ -1,3 +1,5 @@
+import { funFactIcons } from "./icons";
+
 const variantClasses = {
   sunrise: "bg-gradient-to-br from-amber-400 to-orange-500 text-white",
   meadow: "bg-gradient-to-br from-lime-400 to-emerald-500 text-white",
@@ -7,12 +9,15 @@ const variantClasses = {
 
 export default function FactCard({ icon, text, variant = "sunrise" }) {
   const variantClass = variantClasses[variant] ?? variantClasses.sunrise;
+  const IconComp = funFactIcons[icon] ?? funFactIcons.think;
 
   return (
     <div
-      className={`${variantClass} rounded-3xl p-6 flex items-start gap-4 shadow-md ring-1 ring-black/10 hover:scale-[1.02] transition-transform duration-300`}
+      className={`${variantClass} rounded-3xl p-6 flex items-center gap-4 shadow-md ring-1 ring-black/10 hover:scale-[1.02] transition-transform duration-300`}
     >
-      <span className="text-3xl leading-none">{icon}</span>
+      <span className="inline-block h-14 w-14 text-white shrink-0" aria-hidden="true">
+        <IconComp />
+      </span>
       <p className="text-base font-medium leading-snug">{text}</p>
     </div>
   );
