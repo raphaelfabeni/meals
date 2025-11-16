@@ -1,16 +1,17 @@
-// @ts-check
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
-  testDir: './tests/e2e',
   timeout: 30_000,
-  expect: { timeout: 5_000 },
-  fullyParallel: true,
-  reporter: 'list',
+  testDir: './tests',
+  expect: {
+    toHaveScreenshot: {
+      maxDiffPixelRatio: 0.01,
+    },
+  },
   use: {
     baseURL: 'http://localhost:3000',
-    trace: 'retain-on-failure',
-    video: 'retain-on-failure',
+    headless: true,
+    viewport: { width: 1280, height: 800 },
   },
   webServer: {
     command: 'npm run dev',
@@ -18,10 +19,4 @@ export default defineConfig({
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
   },
-  projects: [
-    {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
-    },
-  ],
 });
