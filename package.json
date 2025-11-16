@@ -13,7 +13,7 @@
     "e2e:ui": "playwright test --ui",
     "e2e:headed": "playwright test --headed",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build -o styleguide"
   },
   "dependencies": {
     "next": "^16.0.0",
