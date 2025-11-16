@@ -18,7 +18,7 @@ export default function Page() {
             </p>
 
             <h1 className="mt-4 text-balance text-5xl md:text-7xl font-extrabold tracking-tight">
-              Meal Helper
+              Meal Helperrrrrrrrrr
             </h1>
 
             <p className="mt-4 text-lg md:text-xl text-white/85">
