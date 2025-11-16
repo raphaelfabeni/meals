@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Button from "@/app/_components/ui/Button";
 
 export default function SearchBar({ onSearch }) {
   const [value, setValue] = useState("");
@@ -23,12 +24,9 @@ export default function SearchBar({ onSearch }) {
         placeholder="Type a dish or an ingredient…"
         className="flex-1 rounded-[var(--radius-card)] px-4 py-3 ring-1 ring-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-600"
       />
-      <button
-        type="submit"
-        className="cursor-pointer rounded-[var(--radius-card)] px-5 py-3 font-medium ring-1 ring-transparent bg-emerald-600 text-white hover:bg-emerald-700 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emerald-600"
-      >
+      <Button type="submit" size="lg" variant="primary">
         Find recipes
-      </button>
+      </Button>
     </form>
   );
 }
