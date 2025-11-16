@@ -17,6 +17,7 @@ test-results/
 .vite/
 vite.config.ts.timestamp-*
 .vitest/
+/styleguide/
 
 # --- Environment & secrets ---
 .env
