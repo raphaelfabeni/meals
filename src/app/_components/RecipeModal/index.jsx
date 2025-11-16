@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import Button from "@/app/_components/ui/Button";
 
 export default function RecipeModal({ open, onClose, recipe }) {
   const ref = useRef(null);
@@ -70,14 +71,15 @@ export default function RecipeModal({ open, onClose, recipe }) {
           <h2 id="recipe-modal-title" className="text-lg font-semibold">
             {title}
           </h2>
-          <button
+          <Button
             type="button"
+            size="sm"
+            variant="subtle"
             aria-label="Close"
-            className="rounded-md px-3 py-1.5 ring-1 ring-gray-300 bg-white hover:bg-gray-50"
             onClick={() => ref.current?.close()}
           >
             Close
-          </button>
+          </Button>
         </div>
 
         <div className="grid gap-6 px-4 pb-6 md:grid-cols-[280px,1fr]">
@@ -118,24 +120,26 @@ export default function RecipeModal({ open, onClose, recipe }) {
             {(youtube || source) && (
               <div className="flex flex-wrap gap-3 pt-2">
                 {youtube && (
-                  <a
-                    className="rounded-[var(--radius-card)] px-4 py-2 ring-1 ring-emerald-300 text-emerald-900 bg-white hover:bg-emerald-50"
+                  <Button
                     href={youtube}
                     rel="noreferrer"
                     target="_blank"
+                    variant="secondary"
+                    size="md"
                   >
                     Watch on YouTube
-                  </a>
+                  </Button>
                 )}
                 {source && (
-                  <a
-                    className="rounded-[var(--radius-card)] px-4 py-2 ring-1 ring-gray-300 bg-white hover:bg-gray-50"
+                  <Button
                     href={source}
                     rel="noreferrer"
                     target="_blank"
+                    variant="subtle"
+                    size="md"
                   >
                     Original source
-                  </a>
+                  </Button>
                 )}
               </div>
             )}
