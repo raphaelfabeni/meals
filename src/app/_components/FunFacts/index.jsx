@@ -31,11 +31,7 @@ export default function FunFacts() {
       {facts.map((f, i) => (
         <div
           key={i}
-          className={`
-            ${f.color}
-            rounded-3xl p-6 flex items-start gap-4 shadow-md ring-1 ring-black/10
-            hover:scale-[1.02] transition-transform duration-300
-          `}
+          className={`${f.color} rounded-3xl p-6 flex items-start gap-4 shadow-md ring-1 ring-black/10 hover:scale-[1.02] transition-transform duration-300`}
         >
           <span className="text-3xl leading-none">{f.icon}</span>
           <p className="text-base font-medium leading-snug">{f.text}</p>
