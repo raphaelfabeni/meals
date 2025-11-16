@@ -1,11 +1,10 @@
 name: CI - unit tests
 
 on:
-  # Run for any PR and pushes to develop
   pull_request:
+    branches: [ main ]
   push:
-    branches: [ develop ]
-  # Allow manual runs from the Actions tab
+    branches-ignore: [ main ]
   workflow_dispatch:
     inputs:
       node:
