@@ -12,7 +12,6 @@
     "e2e": "playwright test",
     "e2e:ui": "playwright test --ui",
     "e2e:headed": "playwright test --headed",
-    "postinstall": "npx playwright install --with-deps"
   },
   "dependencies": {
     "next": "^16.0.0",
