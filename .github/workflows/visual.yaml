@@ -37,7 +37,7 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run visual tests
-        run: npm run test:visual
+        run: npm run test:visual -- --reporter=line,html
         env:
           NODE_ENV: test
 
