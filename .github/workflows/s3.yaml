@@ -31,19 +31,14 @@ jobs:
         run: npm ci
 
       # ---------- BUILD ----------
-      - name: Build and export static site
+      - name: Build (static export mode)
         env:
           NEXT_TELEMETRY_DISABLED: 1
         run: |
           npm run build
-          if npm run | grep -qE '^\s*export\b'; then
-            npm run export
-          else
-            npx next export
-          fi
-          test -d out || (echo "❌ Export failed — './out' directory not found" && exit 1)
+          test -d out || (echo "❌ Expected './out' after build (output: export)" && exit 1)
           echo "✅ Build complete. Contents of ./out:"
-          ls -l out
+          ls -la out
 
       # ---------- AWS AUTH ----------
       - name: Configure AWS credentials
