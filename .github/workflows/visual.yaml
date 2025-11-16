@@ -1,4 +1,4 @@
-name: E2E - Playwright
+name: Visual Regression - Playwright
 
 on:
   pull_request:
@@ -6,12 +6,12 @@ on:
   workflow_dispatch:
     inputs:
       node:
-        description: 'Node.js version'
+        description: "Node.js version"
         required: false
-        default: '24'
+        default: "24"
 
 jobs:
-  e2e:
+  visual:
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
@@ -23,7 +23,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ github.event.inputs.node || '24' }}
-          cache: 'npm'
+          cache: "npm"
 
       - name: Install dependencies
         run: |
@@ -33,24 +33,19 @@ jobs:
             npm install
           fi
 
-      # Installs Chromium/WebKit/Firefox and system deps used in CI
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      # Run Playwright. Your playwright.config.* should define `webServer`
-      # (e.g., start your app on port 3000) so CI doesn't need extra steps.
-      - name: Run E2E tests
-        run: npm run test:e2e
+      - name: Run visual tests
+        run: npm run test:visual
         env:
-          # put any runtime env your app needs here (mock keys, etc.)
           NODE_ENV: test
 
-      # Always keep artifacts on failure for debugging
       - name: Upload Playwright report (on failure)
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report
+          name: playwright-report-visual
           path: playwright-report
           if-no-files-found: ignore
 
@@ -58,6 +53,6 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: test-results
+          name: test-results-visual
           path: test-results
           if-no-files-found: ignore
