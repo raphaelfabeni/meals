@@ -4,7 +4,7 @@ on:
   # Run for any PR and pushes to develop
   pull_request:
   push:
-    branches: [ develop, main ]
+    branches: [ develop ]
   # Allow manual runs from the Actions tab
   workflow_dispatch:
     inputs:
