@@ -2,25 +2,35 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Search & open recipe flow', () => {
   test('searches, shows results, opens modal, and closes it', async ({ page }) => {
-    // Mock the search endpoint (works for ?query= or ?q=)
-    await page.route('**/api/search?*', async (route) => {
+    // Mock MealDB search endpoint the app calls.
+    await page.route('**/api/json/v1/1/search.php?*', async (route) => {
       const url = new URL(route.request().url());
-      const q = url.searchParams.get('query') ?? url.searchParams.get('q') ?? '';
-      const body = [
-        {
-          id: 'r1',
-          title: q ? `Result for ${q}` : 'Chicken Handi',
-          imageUrl: 'https://img.test/handi.jpg',
-          ingredients: ['200 g Pasta', 'Salt'],
-          instructions: 'Boil water\nCook pasta',
-          youtube: 'https://youtu.be/demo',
-          source: 'https://example.com/src',
-        },
-      ];
-      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(body) });
+      const q = url.searchParams.get('s') ?? '';
+      const body = {
+        meals: [
+          {
+            idMeal: 'r1',
+            strMeal: q ? `Result for ${q}` : 'Chicken Handi',
+            strMealThumb: 'https://img.test/handi.jpg',
+            strInstructions: 'Boil water\nCook pasta',
+            strYoutube: 'https://youtu.be/demo',
+            strSource: 'https://example.com/src',
+            strIngredient1: 'Pasta',
+            strMeasure1: '200 g',
+            strIngredient2: 'Salt',
+            strMeasure2: '',
+          },
+        ],
+      };
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify(body),
+      });
     });
 
     await page.goto('/', { waitUntil: 'domcontentloaded' });
+    await page.locator('[data-test-start-search]').click();
 
     // Be flexible about how the search input is exposed
     const search = page.locator(
