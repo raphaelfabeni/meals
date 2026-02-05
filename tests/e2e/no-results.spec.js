@@ -2,23 +2,34 @@ import { test, expect } from '@playwright/test';
 
 test.describe('No results flow', () => {
   test('shows an empty state when the API returns []', async ({ page }) => {
-    // Mock search to return an empty array for any non-empty query (?query= or ?q=)
-    await page.route(/\/api\/search(\?.*)?$/, async route => {
+    // Name search returns no matches, so app falls back to ingredient search.
+    await page.route('**/api/json/v1/1/search.php?*', async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ meals: null }),
+      });
+    });
+
+    // Ingredient fallback also returns no matches.
+    await page.route('**/api/json/v1/1/filter.php?*', async (route) => {
       const url = new URL(route.request().url());
-      const q = url.searchParams.get('query') ?? url.searchParams.get('q') ?? '';
-      if (q.trim()) {
-        await route.fulfill({
-          status: 200,
-          contentType: 'application/json',
-          body: JSON.stringify({ meals: [] }),
-        });
+      const q = url.searchParams.get('i') ?? '';
+      if (!q.trim()) {
+        await route.continue();
         return;
       }
-      await route.continue();
+
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ meals: null }),
+      });
     });
 
     // ✅ Go to the landing page (where SearchSection lives)
     await page.goto('/', { waitUntil: 'domcontentloaded' });
+    await page.locator('[data-test-start-search]').click();
 
     // Wait for the search region to be ready
     const region = page.getByRole('region', { name: /recipe search/i });
