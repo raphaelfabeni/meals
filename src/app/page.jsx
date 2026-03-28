@@ -1,6 +1,6 @@
-import FunFacts from "@/app/_components/FunFacts";
-import SearchSection from "@/app/_components/SearchSection";
-import Button from "@/app/_components/ui/Button";
+import FunFacts from "@/app/_components/FunFacts/FunFacts";
+import SearchSection from "@/app/_components/SearchSection/SearchSection";
+import Button from "@/app/_components/ui/Button/Button";
 
 export default function Page() {
   return (

@@ -5,8 +5,8 @@
 //
 // Keeping network code here means components and hooks stay lean and testable.
 
-import { MEALDB_API_BASE, SEARCH_DETAIL_LIMIT, DEFAULT_FETCH_OPTIONS } from "@_lib/constants";
-import { normalizeMeal } from "@_lib/normalize";
+import { MEALDB_API_BASE, SEARCH_DETAIL_LIMIT, DEFAULT_FETCH_OPTIONS } from "@/app/_lib/constants";
+import { normalizeMeal } from "@/app/_lib/normalize";
 
 /**
  * Search by dish name (e.g., "teriyaki", "pasta").

@@ -1,10 +1,10 @@
 "use client";
 
 import { useSearch } from "./useSearch";
-import SearchBar from "@/app/_components/SearchBar";
-import RecipeCard from "@/app/_components/RecipeCard";
-import RecipeModal from "@/app/_components/RecipeModal";
-import Button from "@/app/_components/ui/Button";
+import SearchBar from "@/app/_components/SearchBar/SearchBar";
+import RecipeCard from "@/app/_components/RecipeCard/RecipeCard";
+import RecipeModal from "@/app/_components/RecipeModal/RecipeModal";
+import Button from "@/app/_components/ui/Button/Button";
 
 export default function SearchSection() {
   const {
