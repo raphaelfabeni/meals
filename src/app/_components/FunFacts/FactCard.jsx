@@ -17,5 +17,3 @@ export default function FactCard({ icon, text, variant = "sunrise" }) {
     </div>
   );
 }
-
-export { variantClasses };
