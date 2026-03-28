@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@/app/_components/ui/Button/Button";
+import Button from "@/app/_components/Button/Button";
 
 // Small card showing meal thumbnail + title. Placeholder if image fails.
 

@@ -8,22 +8,22 @@ Welcome! This guide will help you understand how the project is organized and ho
 src/
 ├── app/
 │   ├── _components/          # Reusable UI components
-│   │   ├── SearchBar/        # Search input field
+│   │   ├── Button/           # Reusable button component
+│   │   ├── FunFacts/         # Colorful tip cards
 │   │   ├── RecipeCard/       # Recipe thumbnail card
 │   │   ├── RecipeModal/      # Recipe details popup
-│   │   ├── SearchSection/    # Main search area
-│   │   ├── FunFacts/         # Colorful tip cards
-│   │   └── ui/
-│   │       └── Button/       # Reusable button component
-│   ├── _lib/                 # Helper functions
-│   │   ├── api.js           # Functions to fetch recipes
-│   │   ├── normalize.js     # Clean up API data
-│   │   └── constants.js     # Configuration values
-│   ├── layout.jsx           # Page wrapper (header, meta tags)
-│   ├── page.jsx             # Home page
-│   └── globals.css          # Global styles
+│   │   ├── SearchBar/        # Search input field
+│   │   └── SearchSection/    # Main search area
+│   ├── _lib/                 # Helper functions & utilities
+│   │   ├── api.js            # Functions to fetch recipes
+│   │   ├── normalize.js      # Clean up API data
+│   │   ├── constants.js      # Configuration values
+│   │   └── NewRelicAgent.jsx # Monitoring setup (not a UI component)
+│   ├── layout.jsx            # Page wrapper (header, meta tags)
+│   ├── page.jsx              # Home page
+│   └── globals.css           # Global styles
 ├── public/                   # Static files (images, robots.txt)
-└── tests/e2e/               # End-to-end tests
+└── tests/e2e/                # End-to-end tests
 ```
 
 ## 🎨 How to Add a New Component
@@ -71,11 +71,11 @@ We use the `@/` alias to import from the `src/` folder:
 
 ```javascript
 // ✅ Good - using alias
-import Button from "@/app/_components/ui/Button/Button";
+import Button from "@/app/_components/Button/Button";
 import { searchByName } from "@/app/_lib/api";
 
 // ❌ Avoid - relative paths get messy
-import Button from "../../../_components/ui/Button/Button";
+import Button from "../../../_components/Button/Button";
 ```
 
 ## 🧪 Testing Your Changes
@@ -122,10 +122,10 @@ import { useState } from "react";
 Make sure you're importing the full file path:
 ```jsx
 // ✅ Correct
-import Button from "@/app/_components/ui/Button/Button";
+import Button from "@/app/_components/Button/Button";
 
 // ❌ Wrong
-import Button from "@/app/_components/ui/Button";
+import Button from "@/app/_components/Button";
 ```
 
 ### 3. API errors not showing
