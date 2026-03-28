@@ -1,4 +1,4 @@
-# 🍽️ Meal Helper
+# 🍽️ Meal Finder
 
 Find recipes fast, keep things easy.
 
