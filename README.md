@@ -46,3 +46,11 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 - **Tailwind CSS** - Styling
 - **Playwright** - E2E testing
 - **Storybook** - Component documentation
+
+## 📚 Documentation
+
+New to the project? Check out these guides:
+
+- **[Contributing Guide](CONTRIBUTING.md)** - How to add components, API functions, and common pitfalls
+- **[Components Overview](src/app/_components/README.md)** - What each component does and how to use them
+- **[Library Functions](src/app/_lib/README.md)** - Helper functions for API calls and data handling
