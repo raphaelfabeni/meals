@@ -2,6 +2,13 @@
  * TheMealDB returns up to 20 ingredient/measure pairs as flat fields:
  *   strIngredient1, strMeasure1 ... strIngredient20, strMeasure20
  * This helper stitches them into user-friendly "measure ingredient" lines.
+ * 
+ * Example input from API:
+ *   strIngredient1: "Chicken", strMeasure1: "500g"
+ *   strIngredient2: "Garlic", strMeasure2: "2 cloves"
+ * 
+ * Example output:
+ *   ["500g Chicken", "2 cloves Garlic"]
  */
 function buildIngredientLines(meal) {
   const lines = [];
