@@ -42,3 +42,18 @@ Configuration values used across the app.
 - `DEFAULT_FETCH_OPTIONS` - Standard settings for API requests
 
 **Why constants?** If we ever need to change the API URL or limits, we only change it in one place instead of hunting through all the files.
+
+### NewRelicAgent.jsx
+Client component that initializes New Relic browser monitoring.
+
+**Why it's here:** This is a utility/infrastructure component, not a UI component. It doesn't render anything visible - it just sets up monitoring.
+
+**What it does:**
+- Loads New Relic's browser agent dynamically (only in the browser)
+- Tracks user interactions, errors, and performance
+- Runs in the `<head>` for early initialization
+
+**How it works:**
+- Uses `useEffect` to run only after the page loads
+- Dynamically imports the New Relic agent to avoid server-side issues
+- Returns `null` (invisible component)

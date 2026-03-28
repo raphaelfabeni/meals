@@ -57,12 +57,10 @@ Displays colorful cards with cooking tips for beginners.
 - Each card has an emoji and gradient background
 - Makes the landing page more friendly and welcoming
 
-## UI Components
-
 ### Button
 A flexible button/link component used throughout the app.
 
-**Location:** `ui/Button/index.jsx`
+**Location:** `Button/Button.jsx`
 
 **What it does:**
 - Can be a `<button>` or `<a>` link (depending on if you pass `href`)
@@ -72,6 +70,8 @@ A flexible button/link component used throughout the app.
 
 **Example usage:**
 ```jsx
+import Button from "@/app/_components/Button/Button";
+
 // Regular button
 <Button onClick={handleClick} variant="primary">
   Click me
