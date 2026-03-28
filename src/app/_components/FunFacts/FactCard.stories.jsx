@@ -1,4 +1,3 @@
-import React from "react";
 import FactCard from "./FactCard.jsx";
 
 const meta = {

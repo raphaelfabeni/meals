@@ -1,4 +1,3 @@
-import React from "react";
 import classNames from "classnames";
 
 /**
@@ -8,7 +7,6 @@ import classNames from "classnames";
  * - sizes: sm | md | lg | none
  */
 export default function Button({
-  as = "button",
   href,
   type = "button",
   variant = "primary",
@@ -19,7 +17,7 @@ export default function Button({
   children,
   ...rest
 }) {
-  const Comp = href ? "a" : as;
+  const Comp = href ? "a" : "button";
 
   const base =
     "rounded-[var(--radius-card)] font-medium transition focus:outline-none cursor-pointer disabled:cursor-not-allowed";

@@ -22,6 +22,4 @@ export const SEARCH_DETAIL_LIMIT = 12;
  */
 export const DEFAULT_FETCH_OPTIONS = {
   method: "GET",
-  // mode: "cors",     // browsers default to CORS for cross-origin; uncomment if you want to be explicit
-  // cache: "no-store" // for dev; consider "force-cache" if you add server components later
 };

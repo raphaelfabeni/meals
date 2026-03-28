@@ -31,7 +31,7 @@ export function normalizeMeal(meal) {
     imageUrl: meal.strMealThumb || null,               // hero/thumbnail image
     instructions: (meal.strInstructions || "").trim(), // full text instructions
     ingredients: buildIngredientLines(meal),           // array of "measure ingredient" lines
-    youtube: (meal.strYoutube || "").trim() || null,   // NEW: YouTube tutorial link
-    source: (meal.strSource || "").trim() || null      // NEW: original source link
+    youtube: (meal.strYoutube || "").trim() || null,
+    source: (meal.strSource || "").trim() || null
   };
 }
