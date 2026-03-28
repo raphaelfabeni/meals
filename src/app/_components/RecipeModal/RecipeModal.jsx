@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import Button from "@/app/_components/ui/Button/Button";
+import Button from "@/app/_components/Button/Button";
 
 export default function RecipeModal({ open, onClose, recipe }) {
   const ref = useRef(null);

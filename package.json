@@ -13,6 +13,7 @@
     "postinstall": "playwright install"
   },
   "dependencies": {
+    "@newrelic/browser-agent": "^1.311.0",
     "classnames": "^2.5.1",
     "next": "^16.0.0",
     "react": "^19.2.0",
