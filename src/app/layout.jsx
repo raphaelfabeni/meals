@@ -1,4 +1,5 @@
 import "./globals.css";
+import NewRelicAgent from "@/app/_components/NewRelicAgent";
 
 export const metadata = {
   title: "Meal Helper",
@@ -16,6 +17,7 @@ export default function RootLayout({ children }) {
         <meta name="robots" content="noindex, nofollow" />
       </head>
       <body className="antialiased text-gray-900">
+        <NewRelicAgent />
         {children}
       </body>
     </html>
