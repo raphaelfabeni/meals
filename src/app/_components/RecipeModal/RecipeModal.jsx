@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import Button from "@/app/_components/ui/Button";
+import Button from "@/app/_components/ui/Button/Button";
 
 export default function RecipeModal({ open, onClose, recipe }) {
   const ref = useRef(null);
@@ -8,7 +8,9 @@ export default function RecipeModal({ open, onClose, recipe }) {
     const dialog = ref.current;
     if (!dialog) return;
 
-    // Close on ESC (cancel) and on backdrop click (close)
+    // The <dialog> element has built-in events we need to handle:
+    // - "cancel" fires when user presses ESC key
+    // - "close" fires when dialog closes (backdrop click or .close() call)
     const handleCancel = (e) => {
       e.preventDefault();      // prevent native auto-close so we control it
       onClose?.();
@@ -42,7 +44,6 @@ export default function RecipeModal({ open, onClose, recipe }) {
   const handleKeyDown = (e) => {
    if (e.key === "Escape") {
      e.preventDefault();
-     // chame close() para satisfazer o spy do teste
      ref.current?.close();
    }
  };

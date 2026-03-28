@@ -1,4 +1,4 @@
-import FactCard from "./FactCard";
+import FactCard from "./FactCard.jsx";
 
 const defaultFacts = [
   {

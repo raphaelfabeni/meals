@@ -1,15 +1,27 @@
 @import "tailwindcss";
 
 :root {
-  --color-primary-50:  #fdf4ff;
-  --color-primary-200: #f5d0fe;
-  --color-primary-500: #a21caf;
   --radius-card: 16px;
 }
 
+/* Loading spinner animation */
+.mm-spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(16, 185, 129, 0.3);
+  border-top-color: rgb(16, 185, 129);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
 
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Recipe modal styles */
 .mm-dialog[open] {
-  inset: 0;             /* center inside viewport */
+  inset: 0;
   margin: auto;
   padding: 0;
 }

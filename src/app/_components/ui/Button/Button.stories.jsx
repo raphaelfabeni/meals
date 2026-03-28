@@ -1,4 +1,4 @@
-import Button from "./index.jsx";
+import Button from "./Button.jsx";
 
 const meta = {
   title: "Components/Button",

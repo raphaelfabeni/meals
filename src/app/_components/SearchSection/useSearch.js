@@ -6,7 +6,7 @@
 // The UI component imports this hook and stays mostly markup.
 
 import { useState } from "react";
-import { searchByName, searchByIngredient, randomMeal } from "@_lib/api";
+import { searchByName, searchByIngredient, randomMeal } from "@/app/_lib/api";
 
 export function useSearch() {
   // --- local state buckets used by the UI ---
@@ -35,7 +35,8 @@ export function useSearch() {
         setErr("No recipes found. Try a different dish or ingredient.");
       }
       setResults(found);
-    } catch {
+    } catch (error) {
+      console.error("Search failed:", error);
       setErr("Something went wrong. Please try again.");
     } finally {
       setBusy(false);
@@ -56,7 +57,8 @@ export function useSearch() {
       const one = await randomMeal();
       setResults(one ? [one] : []);
       if (!one) setErr("No recipe returned. Try again.");
-    } catch {
+    } catch (error) {
+      console.error("Random meal failed:", error);
       setErr("Something went wrong. Please try again.");
     } finally {
       setBusy(false);
