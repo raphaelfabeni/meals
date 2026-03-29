@@ -1,27 +1,38 @@
+// classNames is a utility that helps combine multiple CSS classes conditionally
 import classNames from "classnames";
 
 /**
- * Reusable Button/Link
- * - if `href` is provided, renders <a>
- * - variants: hero | primary | secondary | subtle | text
- * - sizes: sm | md | lg | none
+ * Reusable Button/Link Component
+ * 
+ * This component can render either a <button> or an <a> tag depending on props.
+ * - If `href` is provided, it renders an anchor tag (for navigation)
+ * - Otherwise, it renders a button tag (for actions)
+ * 
+ * Available variants: hero | primary | secondary | subtle | text
+ * Available sizes: sm | md | lg | none
  */
 export default function Button({
-  href,
-  type = "button",
-  variant = "primary",
-  size = "md",
-  block = false,
-  disabled = false,
-  className,
-  children,
-  ...rest
+  href,                    // If provided, renders as <a> tag instead of <button>
+  type = "button",         // HTML button type (button, submit, reset)
+  variant = "primary",     // Visual style variant
+  size = "md",            // Size of the button
+  block = false,          // If true, button takes full width
+  disabled = false,       // Disables the button
+  className,              // Additional custom classes
+  children,               // Button content (text, icons, etc.)
+  ...rest                 // Any other props get passed through
 }) {
+  // Dynamically choose which HTML element to render
+  // This is a common React pattern for flexible components
   const Comp = href ? "a" : "button";
 
+  // Base styles that apply to ALL buttons
+  // These use Tailwind CSS utility classes
   const base =
     "rounded-[var(--radius-card)] font-medium transition focus:outline-none cursor-pointer disabled:cursor-not-allowed";
 
+  // Different visual styles for different use cases
+  // Each variant is a string of Tailwind classes
   const variants = {
     primary:
       "bg-emerald-600 text-white hover:bg-emerald-700 ring-1 ring-transparent focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emerald-600 disabled:bg-emerald-400 disabled:text-emerald-100",
@@ -35,6 +46,7 @@ export default function Button({
       "bg-transparent text-gray-500 hover:text-gray-700 ring-0 focus-visible:ring-0 font-normal px-0 py-0 disabled:text-gray-300",
   };
 
+  // Size variations control padding and text size
   const sizes = {
     sm: "px-3 py-1.5 text-sm",
     md: "px-4 py-2",
@@ -42,6 +54,8 @@ export default function Button({
     none: "",
   };
 
+  // Combine all the classes together
+  // classNames() intelligently merges these and handles conditionals
   const classes = classNames(
     block ? "block w-full" : "inline-flex items-center justify-center",
     base,
@@ -51,15 +65,17 @@ export default function Button({
     { "opacity-60 pointer-events-none": disabled }
   );
 
+  // Conditionally set props based on whether it's a link or button
+  // Links get href, buttons get type
   const propsForAnchor = href ? { href } : { type };
 
   return (
     <Comp
       className={classes}
-      disabled={disabled && !href}
-      aria-disabled={disabled ? "true" : undefined}
-      {...propsForAnchor}
-      {...rest}
+      disabled={disabled && !href}  // Only buttons can be disabled, not links
+      aria-disabled={disabled ? "true" : undefined}  // Accessibility attribute
+      {...propsForAnchor}  // Spread either href or type
+      {...rest}            // Spread any additional props (onClick, etc.)
     >
       {children}
     </Comp>
