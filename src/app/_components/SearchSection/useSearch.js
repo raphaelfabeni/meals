@@ -3,13 +3,16 @@
 /**
  * Simplified useSearch Hook (Workshop 3)
  * 
- * This is a very basic version that just manages modal open/close state.
+ * This version shows the full UI (SearchBar + RecipeCard) but with hardcoded data.
+ * No matter what the user searches, it always shows the same recipe.
+ * 
  * Students learn:
  * - useState for managing component state
  * - Custom hooks to encapsulate logic
+ * - Event handlers
  * 
  * In Workshop 4, we'll add:
- * - Real search functionality
+ * - Real search functionality with filtering
  * - API calls with async/await
  * - Loading and error states
  */
@@ -35,32 +38,40 @@ const DEMO_RECIPE = {
 };
 
 export function useSearch() {
-  // Simple state: is the modal open and which recipe to show?
-  const [modalOpen, setModalOpen] = useState(false);
-  const [selectedRecipe, setSelectedRecipe] = useState(null);
+  // State for search results and modal
+  const [results, setResults] = useState([]);
+  const [selected, setSelected] = useState(null);
 
   /**
-   * Open modal with the demo recipe
-   * In Workshop 4, this will show the actual searched/clicked recipe
+   * Handle search submission
+   * In Workshop 3: Always shows the same hardcoded recipe
+   * In Workshop 4: Will actually search/filter based on the term
    */
-  function openRecipe() {
-    setSelectedRecipe(DEMO_RECIPE);
-    setModalOpen(true);
+  function handleSearch(term) {
+    // For now, just show the demo recipe no matter what they search
+    setResults([DEMO_RECIPE]);
+  }
+
+  /**
+   * Handle clicking a recipe card to open the modal
+   */
+  function handleCardClick(recipe) {
+    setSelected(recipe);
   }
 
   /**
    * Close the modal
    */
-  function closeModal() {
-    setModalOpen(false);
-    setSelectedRecipe(null);
+  function handleCloseModal() {
+    setSelected(null);
   }
 
   // Return state and functions for the UI to use
   return {
-    modalOpen,
-    selectedRecipe,
-    openRecipe,
-    closeModal
+    results,
+    selected,
+    handleSearch,
+    handleCardClick,
+    handleCloseModal
   };
 }
