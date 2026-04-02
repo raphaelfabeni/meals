@@ -66,12 +66,21 @@ export function useSearch() {
     setSelected(null);
   }
 
+  /**
+   * Clear all results
+   */
+  function handleClearResults() {
+    setResults([]);
+    setSelected(null);
+  }
+
   // Return state and functions for the UI to use
   return {
     results,
     selected,
     handleSearch,
     handleCardClick,
-    handleCloseModal
+    handleCloseModal,
+    handleClearResults
   };
 }
