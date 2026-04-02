@@ -4,14 +4,16 @@
  * This is the home page of the Meal Helper app.
  * It demonstrates:
  * - Page layout with multiple sections
- * - Using all the components we built (Button, FunFacts)
+ * - Using all the components we built (Button, FunFacts, SearchSection)
  * - Responsive design with Tailwind CSS
  * - Semantic HTML (main, section, header, article)
+ * - State management with custom hooks (Workshop 3)
  */
 
 // Import all the components we'll use on this page
 import FunFacts from "@/app/_components/FunFacts/FunFacts";
 import Button from "@/app/_components/Button/Button";
+import SearchSection from "@/app/_components/SearchSection/SearchSection";
 
 export default function Page() {
   return (
@@ -68,18 +70,12 @@ export default function Page() {
         </div>
       </section>
 
-      {/* Search Section Placeholder */}
+      {/* Search Section - Interactive search with state management */}
       {/* id="search" allows the button above to link here */}
       <section id="search" className="min-h-dvh bg-white text-gray-900" aria-label="Search recipes">
         <div className="mx-auto max-w-6xl px-6 py-16">
-          <header className="max-w-3xl">
-            <h2 className="text-3xl md:text-4xl font-semibold tracking-tight">
-              Coming in Workshop 3
-            </h2>
-            <p className="mt-2 text-gray-600">
-              In the next workshop, you'll add the SearchBar, RecipeCard, and SearchSection components to build the search functionality.
-            </p>
-          </header>
+          {/* SearchSection handles all search UI and state */}
+          <SearchSection />
         </div>
       </section>
     </main>
