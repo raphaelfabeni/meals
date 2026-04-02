@@ -21,41 +21,47 @@ import { useState } from "react";
 const PLACEHOLDER_RECIPES = [
   {
     id: "1",
-    name: "Spaghetti Carbonara",
-    image: "https://www.themealdb.com/images/media/meals/llcbn01574260722.jpg",
+    title: "Spaghetti Carbonara",
+    imageUrl: "https://www.themealdb.com/images/media/meals/llcbn01574260722.jpg",
     category: "Pasta",
     area: "Italian",
-    instructions: "This is a placeholder recipe. In Workshop 4, you'll fetch real data from the API.",
+    instructions: "Cook spaghetti according to package directions.\nFry bacon until crispy.\nMix eggs with parmesan cheese.\nCombine hot pasta with bacon and egg mixture.\nServe immediately with extra parmesan.",
     ingredients: [
-      { name: "Spaghetti", measure: "200g" },
-      { name: "Eggs", measure: "2" },
-      { name: "Bacon", measure: "100g" }
+      "200g Spaghetti",
+      "2 Eggs",
+      "100g Bacon",
+      "50g Parmesan Cheese",
+      "Black Pepper to taste"
     ]
   },
   {
     id: "2",
-    name: "Chicken Curry",
-    image: "https://www.themealdb.com/images/media/meals/wyxwsp1486979827.jpg",
+    title: "Chicken Curry",
+    imageUrl: "https://www.themealdb.com/images/media/meals/wyxwsp1486979827.jpg",
     category: "Chicken",
     area: "Indian",
-    instructions: "This is a placeholder recipe. In Workshop 4, you'll fetch real data from the API.",
+    instructions: "Cut chicken into bite-sized pieces.\nHeat oil and fry onions until golden.\nAdd curry powder and cook for 1 minute.\nAdd chicken and cook until browned.\nPour in coconut milk and simmer for 20 minutes.\nServe with rice.",
     ingredients: [
-      { name: "Chicken", measure: "500g" },
-      { name: "Curry Powder", measure: "2 tbsp" },
-      { name: "Coconut Milk", measure: "400ml" }
+      "500g Chicken Breast",
+      "2 tbsp Curry Powder",
+      "400ml Coconut Milk",
+      "1 Onion, diced",
+      "2 tbsp Vegetable Oil"
     ]
   },
   {
     id: "3",
-    name: "Beef Wellington",
-    image: "https://www.themealdb.com/images/media/meals/vvpprx1487325699.jpg",
+    title: "Beef Wellington",
+    imageUrl: "https://www.themealdb.com/images/media/meals/vvpprx1487325699.jpg",
     category: "Beef",
     area: "British",
-    instructions: "This is a placeholder recipe. In Workshop 4, you'll fetch real data from the API.",
+    instructions: "Sear beef fillet on all sides.\nSauté mushrooms until moisture evaporates.\nWrap beef in mushroom mixture and prosciutto.\nEncase in puff pastry.\nBake at 200°C for 25-30 minutes.\nRest for 10 minutes before slicing.",
     ingredients: [
-      { name: "Beef Fillet", measure: "750g" },
-      { name: "Mushrooms", measure: "250g" },
-      { name: "Puff Pastry", measure: "500g" }
+      "750g Beef Fillet",
+      "250g Mushrooms, finely chopped",
+      "500g Puff Pastry",
+      "6 slices Prosciutto",
+      "2 Egg Yolks for brushing"
     ]
   }
 ];
@@ -86,7 +92,7 @@ export function useSearch() {
     // In Workshop 4, this becomes an API call
     const searchLower = term.toLowerCase();
     const filtered = PLACEHOLDER_RECIPES.filter(recipe => 
-      recipe.name.toLowerCase().includes(searchLower) ||
+      recipe.title.toLowerCase().includes(searchLower) ||
       recipe.category.toLowerCase().includes(searchLower) ||
       recipe.area.toLowerCase().includes(searchLower)
     );
