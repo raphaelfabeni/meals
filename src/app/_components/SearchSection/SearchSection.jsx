@@ -30,19 +30,9 @@ export default function SearchSection() {
 
   return (
     <section
-      className="mt-8 rounded-[var(--radius-card)] bg-emerald-50 ring-1 ring-emerald-100 p-6 md:p-8"
+      className="rounded-[var(--radius-card)] bg-emerald-50 ring-1 ring-emerald-100 p-6 md:p-8"
       aria-label="Recipe search"
     >
-      {/* Title and subtitle */}
-      <header className="mb-6">
-        <h2 className="text-3xl md:text-4xl font-semibold tracking-tight">
-          Search by dish or ingredient
-        </h2>
-        <p className="mt-2 text-gray-600">
-          Type a term and press Enter or click.
-        </p>
-      </header>
-
       {/* Search bar - user can type and submit */}
       <SearchBar onSearch={handleSearch} />
 

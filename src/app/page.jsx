@@ -74,6 +74,15 @@ export default function Page() {
       {/* id="search" allows the button above to link here */}
       <section id="search" className="min-h-dvh bg-white text-gray-900" aria-label="Search recipes">
         <div className="mx-auto max-w-6xl px-6 py-16">
+          <header className="max-w-3xl mb-8">
+            <h2 className="text-3xl md:text-4xl font-semibold tracking-tight">
+              Search by dish or ingredient
+            </h2>
+            <p className="mt-2 text-gray-600">
+              Type a term and press Enter or click.
+            </p>
+          </header>
+          
           {/* SearchSection handles all search UI and state */}
           <SearchSection />
         </div>
