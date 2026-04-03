@@ -1,26 +1,20 @@
 "use client";
 
 /**
- * Simplified useSearch Hook (Workshop 3)
+ * useSearch Hook
  * 
- * This version shows the full UI (SearchBar + RecipeCard) but with hardcoded data.
- * No matter what the user searches, it always shows the same recipe.
+ * Custom hook that manages search state and interactions.
+ * Currently uses hardcoded data - always shows the same recipe.
  * 
- * Students learn:
+ * Key concepts:
  * - useState for managing component state
  * - Custom hooks to encapsulate logic
  * - Event handlers
- * 
- * In Workshop 4, we'll add:
- * - Real search functionality with filtering
- * - API calls with async/await
- * - Loading and error states
  */
 
 import { useState } from "react";
 
-// Hardcoded recipe for Workshop 3
-// In Workshop 4, this will come from API calls
+// Hardcoded recipe data
 const DEMO_RECIPE = {
   id: "1",
   title: "Spaghetti Carbonara",
@@ -44,11 +38,10 @@ export function useSearch() {
 
   /**
    * Handle search submission
-   * In Workshop 3: Always shows the same hardcoded recipe
-   * In Workshop 4: Will actually search/filter based on the term
+   * Currently always shows the same hardcoded recipe
    */
   function handleSearch(term) {
-    // For now, just show the demo recipe no matter what they search
+    // Show the demo recipe
     setResults([DEMO_RECIPE]);
   }
 
