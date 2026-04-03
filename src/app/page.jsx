@@ -7,7 +7,7 @@
  * - Using all the components we built (Button, FunFacts, SearchSection)
  * - Responsive design with Tailwind CSS
  * - Semantic HTML (main, section, header, article)
- * - State management with custom hooks (Workshop 3)
+ * - State management with custom hooks
  */
 
 // Import all the components we'll use on this page
@@ -79,7 +79,7 @@ export default function Page() {
               Search by dish or ingredient
             </h2>
             <p className="mt-2 text-gray-600">
-              Type a term and press Enter or click.
+              What should we cook today?
             </p>
           </header>
           

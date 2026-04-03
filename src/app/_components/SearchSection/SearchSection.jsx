@@ -1,21 +1,16 @@
 "use client";
 
 /**
- * SearchSection Component (Workshop 3)
+ * SearchSection Component
  * 
- * Full UI with SearchBar, buttons, and RecipeCard, but using hardcoded data.
- * No matter what the user searches, it always shows the same recipe.
+ * Full UI with SearchBar, buttons, and RecipeCard.
+ * Currently uses hardcoded data - always shows the same recipe.
  * 
- * Students learn:
+ * Key concepts:
  * - Using custom hooks (useSearch)
  * - Managing state
  * - Passing props and event handlers to child components
  * - Conditional rendering
- * 
- * In Workshop 4, we'll add:
- * - Real search functionality with filtering
- * - API integration
- * - Loading and error states
  */
 
 import { useSearch } from "./useSearch";
