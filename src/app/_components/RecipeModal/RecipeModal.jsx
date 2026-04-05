@@ -1,53 +1,6 @@
-import { useEffect, useRef } from "react";
 import Button from "@/app/_components/Button/Button";
 
 export default function RecipeModal({ open, onClose, recipe }) {
-  const ref = useRef(null);
-
-  useEffect(() => {
-    const dialog = ref.current;
-    if (!dialog) return;
-
-    // The <dialog> element has built-in events we need to handle:
-    // - "cancel" fires when user presses ESC key
-    // - "close" fires when dialog closes (backdrop click or .close() call)
-    const handleCancel = (e) => {
-      e.preventDefault();      // prevent native auto-close so we control it
-      onClose?.();
-    };
-    const handleClose = () => {
-      // Fired for backdrop click or programmatic close()
-      onClose?.();
-    };
-
-    dialog.addEventListener("cancel", handleCancel);
-    dialog.addEventListener("close", handleClose);
-
-    // Open/close reactively
-    if (open && !dialog.open) {
-      try {
-        dialog.showModal();
-        dialog.focus();
-      } catch {
-        // some browsers throw if already open—ignore
-      }
-    } else if (!open && dialog.open) {
-      dialog.close();
-    }
-
-    return () => {
-      dialog.removeEventListener("cancel", handleCancel);
-      dialog.removeEventListener("close", handleClose);
-    };
-  }, [open, onClose]);
-
-  const handleKeyDown = (e) => {
-   if (e.key === "Escape") {
-     e.preventDefault();
-     ref.current?.close();
-   }
- };
-
   const {
     title,
     imageUrl,
@@ -59,13 +12,11 @@ export default function RecipeModal({ open, onClose, recipe }) {
 
   return (
     <dialog
-      ref={ref}
+      open={open}
       className="mm-dialog w-[min(92vw,880px)] rounded-[var(--radius-card)] p-0"
       role="dialog"
       aria-modal="true"
       aria-labelledby="recipe-modal-title"
-      onKeyDown={handleKeyDown}
-     tabIndex={-1}
     >
       <div className="bg-white ring-1 ring-gray-200 rounded-[var(--radius-card)] overflow-hidden">
         <div className="flex items-start justify-between p-4">
@@ -77,7 +28,7 @@ export default function RecipeModal({ open, onClose, recipe }) {
             size="sm"
             variant="subtle"
             aria-label="Close"
-            onClick={() => ref.current?.close()}
+            onClick={onClose}
           >
             Close
           </Button>
