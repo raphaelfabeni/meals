@@ -1,79 +1,90 @@
 "use client";
 
-/**
- * useSearch Hook
- * 
- * Custom hook that manages search state and interactions.
- * Currently uses hardcoded data - always shows the same recipe.
- * 
- * Key concepts:
- * - useState for managing component state
- * - Custom hooks to encapsulate logic
- * - Event handlers
- */
+// Custom hook that owns all interactivity:
+// - local state (results, loading, error, selected recipe)
+// - event handlers (search by name/ingredient, random, clear)
+// The UI component imports this hook and stays mostly markup.
 
 import { useState } from "react";
-
-// Hardcoded recipe data
-const DEMO_RECIPE = {
-  id: "1",
-  title: "Spaghetti Carbonara",
-  imageUrl: "https://www.themealdb.com/images/media/meals/llcbn01574260722.jpg",
-  category: "Pasta",
-  area: "Italian",
-  instructions: "Cook spaghetti according to package directions.\nFry bacon until crispy.\nMix eggs with parmesan cheese.\nCombine hot pasta with bacon and egg mixture.\nServe immediately with extra parmesan.",
-  ingredients: [
-    "200g Spaghetti",
-    "2 Eggs",
-    "100g Bacon",
-    "50g Parmesan Cheese",
-    "Black Pepper to taste"
-  ]
-};
+import { searchByName, searchByIngredient, randomMeal } from "@/app/_lib/api";
 
 export function useSearch() {
-  // State for search results and modal
-  const [results, setResults] = useState([]);
-  const [selected, setSelected] = useState(null);
+  // --- local state buckets used by the UI ---
+  const [results, setResults] = useState([]);     // array of normalized recipes
+  const [busy, setBusy] = useState(false);        // network in flight
+  const [err, setErr] = useState("");             // user-facing error message
+  const [selected, setSelected] = useState(null); // currently opened recipe (for modal)
 
   /**
-   * Handle search submission
-   * Currently always shows the same hardcoded recipe
+   * Main search handler:
+   * - CTA-only: nothing fires until the user submits a term
+   * - Try name search first; if empty, fallback to ingredient search
+   * - Errors become a generic message (no leaky technical details)
    */
-  function handleSearch(term) {
-    // Show the demo recipe
-    setResults([DEMO_RECIPE]);
+  async function handleSearch(term) {
+    setErr("");
+    setBusy(true);
+    setResults([]);
+
+    try {
+      let found = await searchByName(term);
+      if (!found.length) {
+        found = await searchByIngredient(term);
+      }
+      if (!found.length) {
+        setErr("No recipes found. Try a different dish or ingredient.");
+      }
+      setResults(found);
+    } catch (error) {
+      console.error("Search failed:", error);
+      setErr("Something went wrong. Please try again.");
+    } finally {
+      setBusy(false);
+    }
   }
 
   /**
-   * Handle clicking a recipe card to open the modal
+   * "Surprise me":
+   * - Clears current results, shows loader, fetches a random meal
+   * - Converts nulls to a friendly error
    */
-  function handleCardClick(recipe) {
-    setSelected(recipe);
+  async function handleRandom() {
+    setErr("");
+    setBusy(true);
+    setResults([]);
+
+    try {
+      const one = await randomMeal();
+      setResults(one ? [one] : []);
+      if (!one) setErr("No recipe returned. Try again.");
+    } catch (error) {
+      console.error("Random meal failed:", error);
+      setErr("Something went wrong. Please try again.");
+    } finally {
+      setBusy(false);
+    }
   }
 
-  /**
-   * Close the modal
-   */
-  function handleCloseModal() {
-    setSelected(null);
-  }
-
-  /**
-   * Clear all results
-   */
-  function handleClearResults() {
+  /** Clear everything (used by "Clear results" button). */
+  function clearAll() {
+    setErr("");
     setResults([]);
     setSelected(null);
   }
 
-  // Return state and functions for the UI to use
   return {
+    // state exposed to the UI
     results,
+    busy,
+    err,
     selected,
+
+    // state setters selectively exposed
+    setSelected,
+
+    // actions exposed to the UI
     handleSearch,
-    handleCardClick,
-    handleCloseModal,
-    handleClearResults
+    handleRandom,
+    clearAll
   };
 }

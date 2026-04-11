@@ -4,13 +4,14 @@
  * SearchSection Component
  * 
  * Full UI with SearchBar, buttons, and RecipeCard.
- * Currently uses hardcoded data - always shows the same recipe.
+ * Now integrated with real API calls to fetch recipes.
  * 
  * Key concepts:
  * - Using custom hooks (useSearch)
- * - Managing state
+ * - Managing state (results, loading, errors)
  * - Passing props and event handlers to child components
- * - Conditional rendering
+ * - Conditional rendering based on state
+ * - Async operations with loading states
  */
 
 import { useSearch } from "./useSearch";
@@ -21,7 +22,7 @@ import Button from "@/app/_components/Button/Button";
 
 export default function SearchSection() {
   // Use our custom hook to manage search state
-  const { results, selected, handleSearch, handleCardClick, handleCloseModal, handleClearResults } = useSearch();
+  const { results, busy, err, selected, setSelected, handleSearch, handleRandom, clearAll } = useSearch();
 
   return (
     <section
@@ -33,18 +34,25 @@ export default function SearchSection() {
 
       {/* Action buttons */}
       <div className="mt-4 flex flex-wrap gap-3">
-        <Button onClick={handleSearch} size="lg" variant="primary">
+        <Button onClick={handleRandom} size="lg" variant="primary" disabled={busy}>
           Surprise me
         </Button>
-        <Button onClick={handleClearResults} variant="secondary" size="lg">
+        <Button onClick={clearAll} variant="secondary" size="lg" disabled={busy}>
           Clear results
         </Button>
       </div>
 
-      {/* Show "no results" message only when results array is empty after a search */}
-      {results.length === 0 && (
+      {/* Loading state */}
+      {busy && (
         <p className="mt-8 text-gray-600" role="status" aria-live="polite">
-          No recipes found. Try a different dish or ingredient.
+          Searching...
+        </p>
+      )}
+
+      {/* Error message */}
+      {err && (
+        <p className="mt-8 text-red-600" role="alert" aria-live="assertive">
+          {err}
         </p>
       )}
 
@@ -56,7 +64,7 @@ export default function SearchSection() {
               key={recipe.id}
               title={recipe.title}
               imageUrl={recipe.imageUrl}
-              onOpen={() => handleCardClick(recipe)}
+              onOpen={() => setSelected(recipe)}
             />
           ))}
         </div>
@@ -65,7 +73,7 @@ export default function SearchSection() {
       {/* Modal - shows when a recipe card is clicked */}
       <RecipeModal
         open={!!selected}
-        onClose={handleCloseModal}
+        onClose={() => setSelected(null)}
         recipe={selected}
       />
     </section>
