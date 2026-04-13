@@ -8,10 +8,9 @@
  * 
  * Key concepts:
  * - Using custom hooks (useSearch)
- * - Managing state (results, loading, errors)
+ * - Managing state
  * - Passing props and event handlers to child components
- * - Conditional rendering based on state
- * - Async operations with loading states
+ * - Conditional rendering
  */
 
 import { useSearch } from "./useSearch";
@@ -34,41 +33,25 @@ export default function SearchSection() {
 
       {/* Action buttons */}
       <div className="mt-4 flex flex-wrap gap-3">
-        <Button onClick={handleRandom} size="lg" variant="primary" disabled={busy}>
+        <Button onClick={handleRandom} size="lg" variant="primary">
           Surprise me
         </Button>
-        <Button onClick={clearAll} variant="secondary" size="lg" disabled={busy}>
+        <Button onClick={clearAll} variant="secondary" size="lg">
           Clear results
         </Button>
       </div>
 
-      {/* Loading state */}
-      {busy && (
-        <p className="mt-8 text-gray-600" role="status" aria-live="polite">
-          Searching...
-        </p>
-      )}
-
-      {/* Error message */}
-      {err && (
-        <p className="mt-8 text-red-600" role="alert" aria-live="assertive">
-          {err}
-        </p>
-      )}
-
       {/* Show results when available */}
-      {results.length > 0 && (
-        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {results.map((recipe) => (
-            <RecipeCard
-              key={recipe.id}
-              title={recipe.title}
-              imageUrl={recipe.imageUrl}
-              onOpen={() => setSelected(recipe)}
-            />
-          ))}
-        </div>
-      )}
+      <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {results.map((recipe) => (
+          <RecipeCard
+            key={recipe.id}
+            title={recipe.title}
+            imageUrl={recipe.imageUrl}
+            onOpen={() => setSelected(recipe)}
+          />
+        ))}
+      </div>
 
       {/* Modal - shows when a recipe card is clicked */}
       <RecipeModal
