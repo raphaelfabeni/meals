@@ -4,13 +4,14 @@
  * SearchSection Component
  * 
  * Full UI with SearchBar, buttons, and RecipeCard.
- * Now integrated with real API calls to fetch recipes.
+ * Now displays loading states, error messages, and disabled buttons
+ * during API calls for better user feedback.
  * 
  * Key concepts:
- * - Using custom hooks (useSearch)
- * - Managing state
- * - Passing props and event handlers to child components
- * - Conditional rendering
+ * - Conditional rendering based on state (busy, err, results)
+ * - Accessibility attributes (role, aria-live)
+ * - Loading indicators with spinners
+ * - User-friendly error messages
  */
 
 import { useSearch } from "./useSearch";
@@ -20,18 +21,24 @@ import RecipeModal from "@/app/_components/RecipeModal/RecipeModal";
 import Button from "@/app/_components/Button/Button";
 
 export default function SearchSection() {
-  // Use our custom hook to manage search state
-  const { results, busy, err, selected, setSelected, handleSearch, handleRandom, clearAll } = useSearch();
+  const {
+    results,
+    busy,
+    err,
+    selected,
+    setSelected,
+    handleSearch,
+    handleRandom,
+    clearAll,
+  } = useSearch();
 
   return (
     <section
-      className="rounded-[var(--radius-card)] bg-emerald-50 ring-1 ring-emerald-100 p-6 md:p-8"
+      className="mt-8 rounded-[var(--radius-card)] bg-emerald-50 ring-1 ring-emerald-100 p-6 md:p-8"
       aria-label="Recipe search"
     >
-      {/* Search bar - user can type and submit */}
       <SearchBar onSearch={handleSearch} />
 
-      {/* Action buttons */}
       <div className="mt-4 flex flex-wrap gap-3">
         <Button onClick={handleRandom} size="lg" variant="primary">
           Surprise me
@@ -41,19 +48,44 @@ export default function SearchSection() {
         </Button>
       </div>
 
-      {/* Show results when available */}
-      <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {results.map((recipe) => (
-          <RecipeCard
-            key={recipe.id}
-            title={recipe.title}
-            imageUrl={recipe.imageUrl}
-            onOpen={() => setSelected(recipe)}
-          />
-        ))}
-      </div>
+      {busy && (
+        <div
+          className="mt-8 flex items-center gap-3 text-emerald-800"
+          role="status"
+          aria-live="polite"
+        >
+          <span className="mm-spinner" aria-hidden="true"></span>
+          <span>Searching recipes…</span>
+        </div>
+      )}
 
-      {/* Modal - shows when a recipe card is clicked */}
+      {/* Option B: the hook provides the "no results" message via `err` */}
+      {!busy && err && (
+        <p className="mt-8 text-red-600" role="status" aria-live="polite">
+          {err}
+        </p>
+      )}
+
+      {/* Future-proof fallback: only if no error and empty results */}
+      {!busy && !err && Array.isArray(results) && results.length === 0 && (
+        <p className="mt-8 text-gray-600" role="status" aria-live="polite">
+          No recipes found. Try a different dish or ingredient.
+        </p>
+      )}
+
+      {!busy && !err && results.length > 0 && (
+        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {results.map((r) => (
+            <RecipeCard
+              key={r.id}
+              title={r.title}
+              imageUrl={r.imageUrl}
+              onOpen={() => setSelected(r)}
+            />
+          ))}
+        </div>
+      )}
+
       <RecipeModal
         open={!!selected}
         onClose={() => setSelected(null)}
