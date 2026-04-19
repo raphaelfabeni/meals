@@ -32,20 +32,15 @@ test.describe('Search & open recipe flow', () => {
     await page.goto('/', { waitUntil: 'domcontentloaded' });
     await page.locator('[data-test-start-search]').click();
 
-    // Be flexible about how the search input is exposed
-    const search = page.locator(
-      [
-        'input[placeholder*="search" i]',
-        'input[aria-label*="search" i]',
-        'input[type="search"]',
-        'input[name="q"]',
-        'main input[type="text"]',
-      ].join(', ')
-    ).first();
+    // Wait for the search region to be ready
+    const region = page.getByRole('region', { name: /recipe search/i });
+    await expect(region).toBeVisible();
 
-    await expect(search).toBeVisible();
-    await search.fill('pasta');
-    await search.press('Enter');
+    // Find the input and perform a search
+    const input = region.getByRole('textbox');
+    await expect(input).toBeVisible();
+    await input.fill('pasta');
+    await input.press('Enter');
 
     // Click first "View details"
     const openBtn = page.getByRole('button', { name: /view details/i });
