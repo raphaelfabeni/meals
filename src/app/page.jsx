@@ -52,6 +52,7 @@ export default function Page() {
               variant="hero"
               size="lg"
               className="mt-8"
+              data-test-start-search
             >
               Start searching
               {/* Inline SVG arrow icon */}
