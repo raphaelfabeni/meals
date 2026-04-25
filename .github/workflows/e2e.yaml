@@ -8,7 +8,7 @@ on:
       node:
         description: 'Node.js version'
         required: false
-        default: '20'
+        default: '22'
 
 jobs:
   e2e:
@@ -22,7 +22,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ github.event.inputs.node || '20' }}
+          node-version: ${{ github.event.inputs.node || '22' }}
           cache: 'npm'
 
       - name: Install dependencies
