@@ -1,0 +1,72 @@
+name: Deploy to S3 + CloudFront
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+env:
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+  S3_BUCKET: ${{ secrets.S3_BUCKET }}
+  CF_DISTRIBUTION_ID: ${{ secrets.CF_DISTRIBUTION_ID }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # ---------- BUILD ----------
+      - name: Build (static export mode)
+        env:
+          NEXT_TELEMETRY_DISABLED: 1
+        run: |
+          npm run build
+          test -d out || (echo "❌ Expected './out' after build (output: export)" && exit 1)
+          echo "✅ Build complete. Contents of ./out:"
+          ls -la out
+
+      # ---------- AWS AUTH ----------
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      # ---------- DEPLOY ----------
+      - name: Sync HTML files (short cache)
+        run: |
+          aws s3 sync out "s3://${S3_BUCKET}" \
+            --delete \
+            --exclude "*" --include "*.html" \
+            --cache-control "max-age=300, must-revalidate"
+
+      - name: Sync assets (long cache)
+        run: |
+          aws s3 sync out "s3://${S3_BUCKET}" \
+            --delete \
+            --exclude "*.html" \
+            --cache-control "public, max-age=31536000, immutable"
+
+      # ---------- CLOUDFRONT INVALIDATION ----------
+      - name: Invalidate CloudFront cache
+        if: env.CF_DISTRIBUTION_ID != ''
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id "${CF_DISTRIBUTION_ID}" \
+            --paths "/*"
