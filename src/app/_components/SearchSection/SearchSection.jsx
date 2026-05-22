@@ -45,14 +45,12 @@ export default function SearchSection() {
         </div>
       )}
 
-      {/* Option B: the hook provides the "no results" message via `err` */}
       {!busy && err && (
         <p className="mt-8 text-red-600" role="status" aria-live="polite">
           {err}
         </p>
       )}
 
-      {/* Future-proof fallback: only if no error and empty results */}
       {!busy && !err && Array.isArray(results) && results.length === 0 && (
         <p className="mt-8 text-gray-600" role="status" aria-live="polite">
           No recipes found. Try a different dish or ingredient.
