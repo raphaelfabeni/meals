@@ -41,10 +41,10 @@ export default function SearchSection() {
       <SearchBar onSearch={handleSearch} />
 
       <div className="mt-4 flex flex-wrap gap-3">
-        <Button onClick={handleRandom} size="lg" variant="primary">
+        <Button onClick={handleRandom} size="lg" variant="primary" disabled={busy}>
           Surprise me
         </Button>
-        <Button onClick={clearAll} variant="secondary" size="lg">
+        <Button onClick={clearAll} variant="secondary" size="lg" disabled={busy}>
           Clear results
         </Button>
       </div>
