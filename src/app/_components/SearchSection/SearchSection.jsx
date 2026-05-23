@@ -1,45 +1,46 @@
 "use client";
 
-import { useState } from "react";
+/**
+ * SearchSection Component
+ * 
+ * Full UI with SearchBar, buttons, and RecipeCard.
+ * Now displays loading states, error messages, and disabled buttons
+ * during API calls for better user feedback.
+ * 
+ * Key concepts:
+ * - Conditional rendering based on state (busy, err, results)
+ * - Accessibility attributes (role, aria-live)
+ * - Loading indicators with spinners
+ * - User-friendly error messages
+ */
+
+import { useSearch } from "./useSearch";
 import SearchBar from "@/app/_components/SearchBar/SearchBar";
 import RecipeCard from "@/app/_components/RecipeCard/RecipeCard";
 import RecipeModal from "@/app/_components/RecipeModal/RecipeModal";
 import Button from "@/app/_components/Button/Button";
 
-const DEMO_RECIPE = {
-  id: "1",
-  title: "Spaghetti Carbonara",
-  imageUrl: "https://www.themealdb.com/images/media/meals/llcbn01574260722.jpg",
-  instructions: "Cook spaghetti according to package directions.\nFry bacon until crispy.\nMix eggs with parmesan cheese.\nCombine hot pasta with bacon and egg mixture.\nServe immediately with extra parmesan.",
-  ingredients: ["200g Spaghetti", "2 Eggs", "100g Bacon", "50g Parmesan Cheese", "Black Pepper to taste"],
-  youtube: "https://www.youtube.com/watch?v=3AAdKl1UYZs",
-};
-
 export default function SearchSection() {
-  const [results, setResults] = useState([]);
-  const [selected, setSelected] = useState(null);
-  const [hasSearched, setHasSearched] = useState(false);
-
-  function handleSearch() {
-    setResults([DEMO_RECIPE]);
-    setHasSearched(true);
-  }
-
-  function clearAll() {
-    setResults([]);
-    setSelected(null);
-    setHasSearched(false);
-  }
+  const {
+    results,
+    busy,
+    err,
+    selected,
+    setSelected,
+    handleSearch,
+    handleRandom,
+    clearAll,
+  } = useSearch();
 
   return (
     <section
-      className="rounded-[var(--radius-card)] bg-emerald-50 ring-1 ring-emerald-100 p-6 md:p-8"
+      className="mt-8 rounded-[var(--radius-card)] bg-emerald-50 ring-1 ring-emerald-100 p-6 md:p-8"
       aria-label="Recipe search"
     >
       <SearchBar onSearch={handleSearch} />
 
       <div className="mt-4 flex flex-wrap gap-3">
-        <Button onClick={handleSearch} size="lg" variant="primary">
+        <Button onClick={handleRandom} size="lg" variant="primary">
           Surprise me
         </Button>
         <Button onClick={clearAll} variant="secondary" size="lg">
@@ -47,20 +48,37 @@ export default function SearchSection() {
         </Button>
       </div>
 
-      {hasSearched && results.length === 0 && (
-        <div className="mt-8 text-center text-gray-500">
-          No results found. Try searching for a recipe!
+      {busy && (
+        <div
+          className="mt-8 flex items-center gap-3 text-emerald-800"
+          role="status"
+          aria-live="polite"
+        >
+          <span className="mm-spinner" aria-hidden="true"></span>
+          <span>Searching recipes…</span>
         </div>
       )}
 
-      {results.length > 0 && (
+      {!busy && err && (
+        <p className="mt-8 text-red-600" role="status" aria-live="polite">
+          {err}
+        </p>
+      )}
+
+      {!busy && !err && Array.isArray(results) && results.length === 0 && (
+        <p className="mt-8 text-gray-600" role="status" aria-live="polite">
+          No recipes found. Try a different dish or ingredient.
+        </p>
+      )}
+
+      {!busy && !err && results.length > 0 && (
         <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {results.map((recipe) => (
+          {results.map((r) => (
             <RecipeCard
-              key={recipe.id}
-              title={recipe.title}
-              imageUrl={recipe.imageUrl}
-              onOpen={() => setSelected(recipe)}
+              key={r.id}
+              title={r.title}
+              imageUrl={r.imageUrl}
+              onOpen={() => setSelected(r)}
             />
           ))}
         </div>
