@@ -14,6 +14,7 @@ export function useSearch() {
   const [busy, setBusy] = useState(false);        // network in flight
   const [err, setErr] = useState("");             // user-facing error message
   const [selected, setSelected] = useState(null); // currently opened recipe (for modal)
+  const [hasSearched, setHasSearched] = useState(false);
 
   /**
    * Main search handler:
@@ -40,6 +41,7 @@ export function useSearch() {
       setErr("Something went wrong. Please try again.");
     } finally {
       setBusy(false);
+      setHasSearched(true);
     }
   }
 
@@ -62,6 +64,7 @@ export function useSearch() {
       setErr("Something went wrong. Please try again.");
     } finally {
       setBusy(false);
+      setHasSearched(true);
     }
   }
 
@@ -70,6 +73,7 @@ export function useSearch() {
     setErr("");
     setResults([]);
     setSelected(null);
+    setHasSearched(false);
   }
 
   return {
@@ -83,6 +87,7 @@ export function useSearch() {
     setSelected,
 
     // actions exposed to the UI
+    hasSearched,
     handleSearch,
     handleRandom,
     clearAll

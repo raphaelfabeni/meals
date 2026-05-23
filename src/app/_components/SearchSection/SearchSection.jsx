@@ -25,6 +25,7 @@ export default function SearchSection() {
     results,
     busy,
     err,
+    hasSearched,
     selected,
     setSelected,
     handleSearch,
@@ -65,7 +66,7 @@ export default function SearchSection() {
         </p>
       )}
 
-      {!busy && !err && Array.isArray(results) && results.length === 0 && (
+      {!busy && !err && hasSearched && results.length === 0 && (
         <p className="mt-8 text-gray-600" role="status" aria-live="polite">
           No recipes found. Try a different dish or ingredient.
         </p>
