@@ -1,5 +1,7 @@
 "use client";
 
+// TODO: Add New Relic browser agent initialization here.
+
 import { useEffect } from "react";
 
 export default function NewRelicAgent() {
@@ -12,10 +14,10 @@ export default function NewRelicAgent() {
       ({ BrowserAgent }) => {
         const options = {
           info: {
-            applicationID: 1103491955,
+            applicationID: your_application_id,
             beacon: "bam.nr-data.net",
             errorBeacon: "bam.nr-data.net",
-            licenseKey: "NRJS-b2c305c630b425195b7",
+            licenseKey: "your_license_key",
             sa: 1,
           },
           init: {
@@ -38,11 +40,11 @@ export default function NewRelicAgent() {
             },
           },
           loader_config: {
-            accountID: 7729792,
-            agentID: 1103491955,
-            applicationID: 1103491955,
-            licenseKey: "NRJS-b2c305c630b425195b7",
-            trustKey: 7729792,
+            accountID: your_acount_id,
+            agentID: your_agent_id,
+            applicationID: your_application_id,
+            licenseKey: "your_license_key",
+            trustKey: your_trust_key,
           },
         };
 
