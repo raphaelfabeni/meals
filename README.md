@@ -1,6 +1,6 @@
 # 🍽️ Meal Finder App
 
-Find recipes fast, keep things easy.
+Find recipes fast, keep things easy. :)
 
 ## 🚀 Getting Started
 
